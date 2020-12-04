@@ -1,5 +1,5 @@
 # event-hosting
-Simple exercise exam project
+Simple exam project
 
 
 WIP
