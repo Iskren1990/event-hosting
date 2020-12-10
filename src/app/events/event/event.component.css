@@ -1,0 +1,17 @@
+textarea {
+    resize: none;
+}
+
+.input-group-text {
+    background-color: #7952b3;
+    color: #FFFFFF;
+}
+
+.spacing {
+    display: inline-block;
+}
+
+img {
+    width:48px;
+    height:48px;
+}

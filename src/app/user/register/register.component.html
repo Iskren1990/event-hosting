@@ -1,0 +1,71 @@
+<app-intro-banner></app-intro-banner>
+
+<div class="container">
+
+    <form [formGroup]="form" class="col-md-6 offset-md-3" (ngSubmit)="registerUser()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputFirstName">First Name</label>
+                <input formControlName="firstName" type="text" class="form-control border-success" id="inputFirstName"
+                    placeholder="Johnny">
+                <p *ngIf="path.firstName.errors?.pattern && path.firstName.touched" class="error">
+                    First Name is not valid!
+                </p>
+                <p *ngIf="path.firstName.errors?.required && path.firstName.touched" class="error">
+                    First Name is required!
+                </p>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputLastName">Last Name</label>
+                <input formControlName=lastName type="text" class="form-control border-success" id="inputLastName"
+                    placeholder="Bravo">
+                <p *ngIf="path.lastName.errors?.pattern && path.lastName.touched" class="error">
+                    Last Name is not valid!
+                </p>
+                <p *ngIf="path.lastName.errors?.required && path.lastName.touched" class="error">
+                    Last Name is required!
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">E-mail</label>
+            <input formControlName=email type="email" class="form-control border-success" id="inputEmail"
+                placeholder="Johnny@ggbg.com">
+            <p *ngIf="path.email.errors?.email && path.email.touched" class="error">
+                Email is not valid!
+            </p>
+            <p *ngIf="path.email.errors?.required && path.email.touched" class="error">
+                Email is required!
+            </p>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input formControlName="password" type="password" class="form-control border-success" id="inputPassword"
+                placeholder="********************">
+            <p *ngIf="path.password.errors?.pattern && path.password.touched" class="error">
+                Password is not valid! It should contain more than three characters, letters or numbers.
+            </p>
+            <p *ngIf="path.password.errors?.required && path.password.touched" class="error">
+                Password is required!
+            </p>
+        </div>
+        <div class="form-group">
+            <label for="inputProfilePic">Profile Picture</label>
+            <input formControlName="profilePic" type="text" class="form-control border-success" id="inputProfilePic"
+                placeholder="https://some-site.com/some-pic.ext">
+        </div>
+        <div class="form-group">
+            <label for="inputState">Position</label>
+            <select formControlName="position" id="inputState" class="form-control border-success">
+                <option selected>Choose...</option>
+                <option *ngFor="let position of positions">{{position}}</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <button [disabled]="form.invalid" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Sign
+                in</button>
+        </div>
+    </form>
+
+</div>

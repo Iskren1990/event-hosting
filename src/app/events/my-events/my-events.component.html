@@ -1,0 +1,27 @@
+<main role="main" class="mt-4">
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1>Events</h1>
+      <p class="lead text-muted">Welcome, {{firstName}}
+        To run live polls, quizzes or Q&A sessions,
+        create your first event.</p>
+      <p>
+        <a routerLink="/events/create" class="btn btn-outline-primary  my-2">Create Event</a>
+        <a (click)="quickEvent()" class="btn btn-outline-primary my-2">Quick Event</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="album bg-light" *ngIf="events$">
+    <div class="container">
+      <div class="events-header" margin="auto" style="text-align: center;">
+        <h1 class="">Created Events</h1>
+      </div>
+      <div class="row">
+
+        <app-event-card class="col-md-4" *ngFor="let event of events$ | async" [event]="event"></app-event-card>
+
+      </div>
+    </div>
+  </div>
+</main>

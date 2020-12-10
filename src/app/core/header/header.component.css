@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.mine {
+    display: inherit;
+}
+
+.mine2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: larger;
+    padding-right: 2rem;
+} 
