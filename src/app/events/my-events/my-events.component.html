@@ -12,7 +12,7 @@
     </div>
   </section>
 
-  <div class="album bg-light" *ngIf="events$">
+  <div class="album bg-light" *ngIf="events$ | async">
     <div class="container">
       <div class="events-header" margin="auto" style="text-align: center;">
         <h1 class="">Created Events</h1>
