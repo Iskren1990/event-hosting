@@ -1,8 +1,14 @@
 .mat-paginator {
     justify-content: center;
     display: flex;
+    padding-bottom: 10px;
 }
 
 .center {
     align-items: center;
+    min-height: 10px;
+}
+
+.container {
+    margin-bottom: 40px;
 }
