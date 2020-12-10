@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpRequest, HttpResponse, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {
+    HttpEvent, HttpHandler, HttpRequest,
+    HttpResponse, HttpInterceptor, HttpErrorResponse
+} from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-    constructor(private toster: ToastrService) { }
+    constructor(private toster: ToastrService, private router: Router) { }
     // const errObj = {
 
-    // }
+    // }return of(error);
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         return next.handle(req)
-        // .pipe(tap((req) => console.log("hi",req)))
-            .pipe(catchError((error: any) => {
-                                
+            // .pipe(tap((req) => console.log("hi",req)))
+            .pipe(catchError((error: HttpResponse<any>) => {
+                if (error.status === 404) {
+                    this.router.navigateByUrl("/page/not/found");
+                    return of(error);
+                }
                 if (error instanceof HttpErrorResponse) {
                     try {
                         error["error"].message.forEach((message: string) => {
