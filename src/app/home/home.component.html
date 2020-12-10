@@ -3,16 +3,16 @@
   <app-intro-banner></app-intro-banner>
 
   <div class="album" *ngIf="events$">
-    <div class="container">
+    <div class="container pb-5 ">
       <div class="row">
         <app-event-card class="col-md-4" *ngFor="let event of events$ | async | slice:start:end" [event]="event">
         </app-event-card>
       </div>
     </div>
+    <div class="center fixed-bottom">
+      <mat-paginator class="col-12" hidePageSize [length]="length" [pageSize]="pageSize" (page)="pageEvent = $event"
+        (page)="events($event)">
+      </mat-paginator>
+    </div>
   </div>
 </main>
-<!-- <div class="center">
-  <mat-paginator class="col-12" hidePageSize [length]="length" [pageSize]="pageSize" (page)="pageEvent = $event"
-    (page)="events($event)">
-  </mat-paginator>
-</div> -->
