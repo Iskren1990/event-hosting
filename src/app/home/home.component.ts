@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   constructor(private eventsServices: EventsService) { }
 
   ngOnInit(): void {
-    console.log("Fix pagination")
     const query = "?access=Public";
     this.eventsServices.getEvents(query);
     this.events$ = this.eventsServices.getEvents()

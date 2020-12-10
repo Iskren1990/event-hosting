@@ -3,7 +3,7 @@
       <h1>Events</h1>
       <p class="lead text-muted">Welcome, to run live polls, quizzes or Q&A sessions,
         create your first event. Log in, or if you do not have an account sign up.</p>
-      <p>
+      <p *ngIf="!isLogged">
         <a routerLink="/user/login" class="btn btn-outline-primary mine my-2">Login   </a>
         <a routerLink="/user/register" class="btn btn-outline-primary my-2">Register</a>
       </p>

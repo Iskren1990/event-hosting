@@ -7,8 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-
-
     constructor(private toster: ToastrService) { }
     // const errObj = {
 
@@ -16,7 +14,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         return next.handle(req)
+        // .pipe(tap((req) => console.log("hi",req)))
             .pipe(catchError((error: any) => {
+                                
                 if (error instanceof HttpErrorResponse) {
                     try {
                         error["error"].message.forEach((message: string) => {
