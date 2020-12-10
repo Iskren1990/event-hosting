@@ -1,0 +1,32 @@
+<app-intro-banner></app-intro-banner>
+
+<div class="container">
+
+  <form [formGroup]="form" class="col-md-6 offset-md-3" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input formControlName="email" type="email" class="form-control border-success" id="exampleInputEmail1"
+        aria-describedby="emailHelp">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <p *ngIf="path.email.errors?.email && path.email.touched" class="error">
+        Email is not valid!
+      </p>
+      <p *ngIf="path.email.errors?.required && path.email.touched" class="error">
+        Email is required!
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input formControlName="password" type="password" class="form-control border-success" id="exampleInputPassword1">
+      <p *ngIf="path.password.errors?.pattern && path.password.touched" class="error">
+        Password is not valid! It should contain more than three characters, letters or numbers.
+      </p>
+      <p *ngIf="path.password.errors?.required && path.password.touched" class="error">
+        Password is required!
+      </p>
+    </div>
+
+    <button [disabled]="form.invalid" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Submit</button>
+  </form>
+
+</div>

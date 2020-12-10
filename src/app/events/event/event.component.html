@@ -1,0 +1,47 @@
+<main role="main" class="mt-4" *ngIf="chosenEv$ | async">
+    <button type="button" class="input-group-text" (click)="refresh()">Refresh</button>
+    <div class="container" *ngFor="let chosenEv of chosenEv$ | async">
+        <div class="d-flex align-items-center p-3 my-3 text-black-50 bg-purple rounded shadow-sm">
+            <img class="mr-3" src='{{ chosenEv.eventImage || "/assets/images.jpg" }}' alt="Event Image">
+            <div class="lh-100">
+                <div>
+                    <h6 class="mb-0 text-black lh-100">Event Name: <strong>{{ chosenEv.eventName }}</strong></h6>
+                </div>
+                <div>
+                    <small>Event Code: <strong>{{ chosenEv.eventCode }}</strong></small>
+                </div>
+                <div>
+                    <small>From-To: <strong>{{ chosenEv.startDate }} - {{ chosenEv.endDate }}</strong></small>
+                </div>
+            </div>
+        </div>
+
+        <div [formGroup]="form" class="col-md-8 offset-md-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input formControlName="uName" name="username" type="text" class="form-control" placeholder="Username"
+                    aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group">
+                <div class="input-group-append">
+                    <button [disabled]="form.errors" (click)="send()" class="input-group-text"
+                        id="inputGroupFileAddon02">Send</button>
+                </div>
+                <textarea formControlName="comment" class="form-control" aria-label="With textarea"></textarea>
+            </div>
+            <div *ngIf="form.controls?.comment.errors?.required && form.controls?.comment.touched" class="error">
+                Comment is required!
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded shadow-sm" *ngIf="comments$">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Recent questions</h6>
+
+            <app-comment *ngFor=" let commentObj of comments$ | async " [tempId]="tempId"
+                [isOwner]="this.user?.id === this.chosenEv.owner" [commentObj]="commentObj"></app-comment>
+
+        </div>
+    </div>
+</main>

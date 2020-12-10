@@ -1,0 +1,8 @@
+.mat-paginator {
+    justify-content: center;
+    display: flex;
+}
+
+.center {
+    align-items: center;
+}
