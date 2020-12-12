@@ -21,7 +21,7 @@ export class CommentComponent {
 
   constructor(private fb: FormBuilder, private socket: SocketioService) {
     this.form = this.fb.group({
-      uname: [""],
+      uname: ["Anonymous"],
       unameComment: ["", [Validators.required]]
     });
   }
