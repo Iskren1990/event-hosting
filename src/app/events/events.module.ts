@@ -8,8 +8,9 @@ import { MyEventsComponent } from './my-events/my-events.component';
 import { EventRoutingModule } from './event-routing/event-routing.module';
 import { EventCardComponent } from './event-card/event-card.component';
 import { EventsService } from './services/events.service';
-import { CommentsService } from './services/comments.service';
 import { CommentComponent } from './comment/comment.component';
+import { ClickStopPropagation } from './stop.propagation';
+import { SocketioService } from './services/socketio.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CommentComponent } from './comment/comment.component';
     MyEventsComponent,
     EventCardComponent,
     CommentComponent,
+    ClickStopPropagation,
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,7 @@ import { CommentComponent } from './comment/comment.component';
     EventRoutingModule,
     
   ],
-  providers: [EventsService, CommentsService],
+  providers: [EventsService, SocketioService],
   exports: [EventCardComponent]
 })
 export class EventsModule { }

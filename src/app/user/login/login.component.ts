@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from '../user.service';
 
@@ -11,8 +12,9 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  private passwordRegex: String = "[A-Za-z0-9]{3,}";
   public form: FormGroup;
+  private passwordRegex: String = "[A-Za-z0-9]{3,}";
+  private subscription: Subscription;
 
   constructor(
     private userService: UserService,
@@ -31,12 +33,16 @@ export class LoginComponent implements OnInit {
   public login(): void {
     const { email, password } = this.form.value;
 
-    this.userService.login({ email, password }).subscribe({
+    this.subscription = this.userService.login({ email, password }).subscribe({
       complete: () => this.router.navigateByUrl("/")
     });
   }
 
   get path(): ValidationErrors {
     return this.form?.controls;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

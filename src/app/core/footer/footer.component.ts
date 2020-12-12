@@ -1,28 +1,15 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   
-  public isBottom: Boolean = false; 
-  // @HostListener("window:scroll",['$event.target'] ) onScroll(btn) {
-
-  //   const d = document.documentElement;
-  //   let offset = d.scrollTop + window.innerHeight;
-  //   let height = d.offsetHeight;
-
-  //   if (offset >= height) {
-  //     this.isBottom = false;
-  //   } else {
-  //     this.isBottom = true;
-  //   }
-  // }
-  constructor() { }
-
-  ngOnInit(): void {
+  public isBottom: Boolean = true; 
+  @HostListener("window:mousemove",['$event.target'] ) onScroll(btn) {
+    const d = document.documentElement;
+    this.isBottom = (d.scrollHeight - d.scrollTop) === d.offsetHeight;
   }
-
 }

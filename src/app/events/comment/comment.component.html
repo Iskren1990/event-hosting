@@ -1,4 +1,4 @@
-<div class="container media text-muted pt-3">
+<div (click)="reveal()" class="container media text-muted pt-3 reveal" >
     <div class="row" style=" flex: 0 0 100%;">
         <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
@@ -8,22 +8,22 @@
         </svg>
         <p style=" flex: 0 0 95%;" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <span class="d-block justify-content-between pb-3">
-                <span class="col-4 border-bottom spacing">Comments: {{ commentObj.replies.length }} </span>
+                <span class="col-4 border-bottom spacing">Comments: {{ commentObj.replies?.length }} </span>
                 <strong class=" text-gray-dark col-4 border-bottom spacing"
                     style="display: inline-block;">{{commentObj.owner}}</strong>
-                <button *ngIf="isOwner || commentObj.tempId === userTempId" (click)="delete(commentObj._id)"
+                <button click-stop-propagation  (click)="delete()"
                     class="btn btn-danger btn-sm" style="float:inline-end" width="32" height="32">Delete</button>
             </span>
-        <p (click)="reveal()" style=" flex: 0 0 95%;">{{commentObj.comment}} </p>
+        <p style=" flex: 0 0 95%;">{{commentObj.comment}} </p>
         <div class="container">
-            <div *ngIf="isReveal">
+            <div *ngIf="isReveal" >
                 <div class="col-md-10 ml-5 border-left" *ngFor="let reply of commentObj.replies">
                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                         <strong class="d-block text-gray-dark">User: {{reply.user}}</strong>
                         {{reply.comment}}
                     </p>
                 </div>
-                <div [formGroup]="form" class="col-md-8 offset-md-2">
+                <div [formGroup]="form" class="col-md-8 offset-md-2" click-stop-propagation>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">@</span>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button [disabled]="form.errors" (click)="reply(commentObj._id)" class="input-group-text"
+                            <button [disabled]="form.errors" (click)="reply()" class="input-group-text"
                                 id="inputGroupFileAddon02">Reply</button>
                         </div>
                         <textarea formControlName="unameComment" class="form-control"

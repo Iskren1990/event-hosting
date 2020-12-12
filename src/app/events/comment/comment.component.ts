@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MComment } from '../models/comments';
-import { CommentsService } from '../services/comments.service';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-comment',
@@ -13,10 +13,13 @@ export class CommentComponent {
   @Input() isOwner: Boolean;
   @Input() commentObj: MComment;
   @Input("tempId") userTempId: String;
+  public notDeleted: Boolean = true;
+  public isNew: Boolean = true;
   public isReveal: Boolean = false;
   public form: FormGroup;
+  public styles: Object;
 
-  constructor(private commentsService: CommentsService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private socket: SocketioService) {
     this.form = this.fb.group({
       uname: [""],
       unameComment: ["", [Validators.required]]
@@ -27,15 +30,12 @@ export class CommentComponent {
     this.isReveal = !this.isReveal;
   }
 
-  reply(id) {
-    this.form.value;
-    const query: String = `?reply=${id}`;
-    this.commentsService.put(query, { user: this.form.value.uname, comment: this.form.value.unameComment });
+  reply() {
+    this.socket.sendReply(this.commentObj._id, { user: this.form.value.uname, comment: this.form.value.unameComment });
     this.form.reset();
   }
 
-  delete(id) {
-    const query: String = `?delete=${id}`;
-    this.commentsService.delete(query);
+  delete() {
+    this.socket.sendDelete(this.commentObj._id);
   }
 }
