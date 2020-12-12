@@ -41,7 +41,7 @@ export class EventComponent implements OnInit {
     this.eventId = this.routeSnapshot.snapshot.params.id;
     this.tempId = Date.now().toString();
     this.form = this.fb.group({
-      uName: [""],
+      uName: ["Anonymous"],
       comment: ["", [Validators.required]]
     });
   }
