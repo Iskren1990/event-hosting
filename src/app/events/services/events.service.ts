@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { MEvent } from '../models/event';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class EventsService {
+
+  private _events: BehaviorSubject<MEvent[] | MEvent> = new BehaviorSubject(undefined);
+  public events$ = this._events.asObservable();
 
   constructor(private http: HttpClient) { }
 
   public getEvents(query: String = "") {
     return this.http.get(`/events/public${query}`)
       .pipe(map((i: MEvent[]) => ((i.map((x: any) => new MEvent(x))))))
+      .pipe(tap((events: MEvent[] | MEvent) => this._events.next(events)));
   }
 
   public create(eventData) {

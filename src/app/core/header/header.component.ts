@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventsService } from 'src/app/events/services/events.service';
 import { UserService } from 'src/app/user/user.service';
@@ -9,12 +9,11 @@ import { UserService } from 'src/app/user/user.service';
   styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  @Input() isLogged;
-  @Input() firstName;
-  public data;
-  public isDisabled;
+  @Input() isLogged: Boolean = false;
+  @Input() firstName: Boolean;
+  public query: String;
 
   constructor(
     private eventsServices: EventsService,
@@ -22,13 +21,11 @@ export class HeaderComponent implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit(): void {
-    this.data = this.userService.userData;
-  }
-
-  search(string: String) {
-    const query = string !== "" ? `?eventCode=${string}` : "";
-    this.eventsServices.getEvents(query);
+  search() {
+    const query = this.query !== "" ? `?eventCode=${this.query}` : "";
+    const subscription = this.eventsServices.getEvents(query).subscribe();
+    setTimeout(() => subscription?.unsubscribe(), 10000);
+    this.query = "";
   }
 
   logout() {

@@ -10,7 +10,6 @@ export class AboutComponent implements OnInit {
 
   public isLogged: Boolean = false;
   constructor(private userService: UserService) { }
-  
 
   ngOnInit(): void {
     this.isLogged = this.userService.isLogged;

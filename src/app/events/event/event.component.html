@@ -1,8 +1,7 @@
 <main role="main" class="mt-4" *ngIf="chosenEv$ | async">
-    <button type="button" class="input-group-text" (click)="refresh()">Refresh</button>
     <div class="container" *ngFor="let chosenEv of chosenEv$ | async">
         <div class="d-flex align-items-center p-3 my-3 text-black-50 bg-purple rounded shadow-sm">
-            <img class="mr-3" src='{{ chosenEv.eventImage || "/assets/images.jpg" }}' alt="Event Image">
+            <img class="mr-3" src='{{ chosenEv.eventImage || "/assets/images.png" }}' alt="Event Image">
             <div class="lh-100">
                 <div>
                     <h6 class="mb-0 text-black lh-100">Event Name: <strong>{{ chosenEv.eventName }}</strong></h6>
@@ -36,12 +35,12 @@
             </div>
         </div>
 
-        <div class="my-3 p-3 bg-white rounded shadow-sm" *ngIf="comments$">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Recent questions</h6>
-
-            <app-comment *ngFor=" let commentObj of comments$ | async " [tempId]="tempId"
-                [isOwner]="this.user?.id === this.chosenEv.owner" [commentObj]="commentObj"></app-comment>
-
+        <div class="my-3 p-3 bg-white rounded shadow-sm" >
+            <h6 class="border-bottom border-gray pb-2 mb-0" *ngIf="array.length >= 1">Recent questions</h6>
+            <app-comment [tempId]="tempId" *ngFor="let commentObj of array"
+                [isOwner]="this.user?.id === this.commentObj?.owner" [commentObj]="commentObj">
+            </app-comment>
+            <h6 class="border-bottom border-gray pb-2 mb-0" *ngIf="array.length == 0">No questions yet. Be the first one.</h6>
         </div>
     </div>
 </main>

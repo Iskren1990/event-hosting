@@ -2,7 +2,7 @@ import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage.service';
 import { IUser } from '../models/user';
 import { UserService } from '../user.service';
@@ -12,7 +12,7 @@ import { UserService } from '../user.service';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
   public positions: String[] = [
     "Trainer", "Lecturer",
@@ -21,9 +21,9 @@ export class EditProfileComponent implements OnInit {
     "Other"
   ];
   public userData: IUser;
-  private nameRegex: String = "^[A-Z][a-z-]*";
   public form: FormGroup;
-  private edit$: Subscription;
+  private nameRegex: String = "^[A-Z][a-z-]*";
+  private subscription: Subscription;
 
   constructor(
     private userService: UserService,
@@ -44,9 +44,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   editUser() {
-    this.edit$ = this.userService.updateProfile(this.form.value).subscribe(
+    this.subscription = this.userService.updateProfile(this.form.value).subscribe(
       data => { 
-        console.log("hi")
         this.storage.setItem('userData', data);
         this.router.navigateByUrl("/user/profile");
        });
@@ -54,5 +53,9 @@ export class EditProfileComponent implements OnInit {
 
   get path(): ValidationErrors {
     return this.form?.controls;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

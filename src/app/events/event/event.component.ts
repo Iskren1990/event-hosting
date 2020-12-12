@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SocketioService } from '../services/socketio.service';
 
 import { EventsService } from '../services/events.service';
 import { MEvent } from '../models/event';
-import { CommentsService } from '../services/comments.service';
 import { MComment } from '../models/comments';
 import { UserService } from 'src/app/user/user.service';
 import { IUser } from 'src/app/user/models/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-event',
@@ -18,29 +19,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class EventComponent implements OnInit {
 
-  private query: any;
   private eventId: String;
 
   public tempId: String;
   public isOwner: Boolean;
   public user: IUser;
-  public chosenEv$: Observable<MEvent[]>;
-  public comments$: Observable<MComment[]>;
+  public chosenEv$: Observable<MEvent[] | MEvent>;
+  public array: MComment[] = [];
   public uName: String;
   public comment: String;
   public form: FormGroup;
   public isArray: Boolean = false;
-
-
+  
   constructor(
     private eventsService: EventsService,
     private routeSnapshot: ActivatedRoute,
-    private commentsService: CommentsService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private socket: SocketioService
   ) {
     this.eventId = this.routeSnapshot.snapshot.params.id;
-    this.query = `?chosenEv=${this.eventId}`;
     this.tempId = Date.now().toString();
     this.form = this.fb.group({
       uName: [""],
@@ -49,26 +47,29 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // remove dumbass query !!
+
     const evQuery = `?chosen=${this.eventId}`;
     this.user = this.userService.userData;
     this.chosenEv$ = this.eventsService.getEvents(evQuery);
-    this.comments$ = this.commentsService.getAll(this.query);
-  }
-
-  refresh = () => {
-    this.comments$ = this.commentsService.getAll(this.query);
+    this.socket.setupSocketConnection(this.eventId, this.array);
+    this.socket.receiveAll(this.array);
+    this.socket.newMessage(this.array);
+    this.socket.newReply(this.array);
+    this.socket.onDelete(this.array);
   }
 
   send() {
     const { uName, comment } = this.form.value;
     const userComment: MComment = new MComment({
-      username: uName,
-      comment: comment,
-      eventId: this.eventId,
-      tempId: this.tempId
+      username: uName, comment: comment,
+      eventId: this.eventId, tempId: this.tempId
     });
-    this.commentsService.post(userComment);
-    this.refresh();
+    this.socket.sendMessage(userComment);
     this.form.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.socket.closeConnection();
   }
 }

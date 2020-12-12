@@ -10,9 +10,6 @@ import { UserRoutingModule } from './user-routing/user-routing.module';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserService } from './user.service';
 import { CoreModule } from '../core/core.module';
-import { BrowserModule } from '@angular/platform-browser';
-
-
 
 @NgModule({
   declarations: [ RegisterComponent, LoginComponent, ProfileComponent, EditProfileComponent],

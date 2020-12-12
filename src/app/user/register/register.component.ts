@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage.service';
 import { IUser } from '../models/user';
 import { UserService } from '../user.service';
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit {
   ];
   private nameRegex: String = "^[A-Z][a-z-]*";
   private passwordRegex: String = "[A-Za-z0-9]{3,}";
-
+  private subscription: Subscription;
   public form: FormGroup;
 
   constructor(
@@ -46,7 +47,7 @@ export class RegisterComponent implements OnInit {
 
     const userData: IUser = this.form.value;
 
-    this.userService.register(userData).subscribe(data => {
+    this.subscription = this.userService.register(userData).subscribe(data => {
       this.storageService.setItem("isLogged", true);
       this.storageService.setItem("userData", data);
       this.router.navigateByUrl("/");
@@ -55,5 +56,9 @@ export class RegisterComponent implements OnInit {
 
   get path(): ValidationErrors {
     return this.form?.controls;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

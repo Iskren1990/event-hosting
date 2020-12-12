@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/user/user.service';
 import { MEvent } from "../models/event";
 import { EventsService } from '../services/events.service';
@@ -15,6 +16,7 @@ export class EventCardComponent implements OnInit {
   @Input() event: MEvent;
   public isOwner: Boolean = false;
   public notDeleted: Boolean = true;
+  private subscription: Subscription;
 
   constructor(
     private userService: UserService,
@@ -28,12 +30,16 @@ export class EventCardComponent implements OnInit {
   }
 
   delete() {
-    this.eventsService.delete(this.event.id).subscribe({
+    this.subscription = this.eventsService.delete(this.event.id).subscribe({
       next: () => this.notDeleted = false,
     });
   }
 
   edit() {
-    this.router.navigateByUrl(`/events/edit/${this.event.id}`)
+    this.router.navigateByUrl(`/events/edit/${this.event.id}`);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

@@ -29,7 +29,7 @@
                     <a class="nav-link" routerLink="/events/create">Create</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="logout()">Logout</a>
+                    <a class="nav-link" routerLink="" (click)="logout()">Logout</a>
                 </li>
             </div>
         </ul>
@@ -38,9 +38,9 @@
                 Hello
                 <strong>{{firstName}}</strong>
             </a>
-            <input #query class="form-control mr-sm-2" type="text" placeholder="Event Code" aria-label="Search">
+            <input name="query" [(ngModel)]="query" class="form-control mr-sm-2" type="text" placeholder="Event Code" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="button"
-                (click)="search(query.value)">Search</button>
+                (click)="search()">Search</button>
         </form>
     </div>
 </nav>

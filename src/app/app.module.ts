@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastNoAnimationModule } from 'ngx-toastr';
 
@@ -16,12 +16,9 @@ import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserService } from './user/user.service';
 import { EventsService } from './events/services/events.service';
-import { CommentsService } from './events/services/comments.service';
 import { UserModule } from './user/user.module';
 import { EventsModule } from './events/events.module';
 import { AccessGuard } from './core/guards/access.guard';
-
-
 
 @NgModule({
   declarations: [
@@ -45,7 +42,12 @@ import { AccessGuard } from './core/guards/access.guard';
       preventDuplicates: true,
     }),
   ],
-  providers: [storageServiceProvider, UserService, EventsService, CommentsService, AccessGuard],
+  providers: [
+    storageServiceProvider,
+    UserService,
+    EventsService,
+    AccessGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

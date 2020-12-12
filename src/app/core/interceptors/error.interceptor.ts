@@ -12,13 +12,10 @@ import { Router } from '@angular/router';
 export class HttpErrorInterceptor implements HttpInterceptor {
 
     constructor(private toster: ToastrService, private router: Router) { }
-    // const errObj = {
-
-    // }return of(error);
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         return next.handle(req)
-            // .pipe(tap((req) => console.log("hi",req)))
+
             .pipe(catchError((error: HttpResponse<any>) => {
                 if (error.status === 404) {
                     this.router.navigateByUrl("/page/not/found");
