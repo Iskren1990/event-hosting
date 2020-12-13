@@ -11,7 +11,7 @@
                 <span class="col-4 border-bottom spacing">Comments: {{ commentObj.replies?.length }} </span>
                 <strong class=" text-gray-dark col-4 border-bottom spacing"
                     style="display: inline-block;">{{commentObj.owner}}</strong>
-                <button click-stop-propagation  (click)="delete()"
+                <button click-stop-propagation *ngIf="isOwner || commentObj.tempId === userTempId" (click)="delete()"
                     class="btn btn-danger btn-sm" style="float:inline-end" width="32" height="32">Delete</button>
             </span>
         <p style=" flex: 0 0 95%;">{{commentObj.comment}} </p>
