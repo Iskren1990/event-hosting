@@ -31,8 +31,9 @@ export class CommentComponent {
   }
 
   reply() {
-    this.socket.sendReply(this.commentObj._id, { user: this.form.value.uname, comment: this.form.value.unameComment });
-    this.form.reset();
+    const {uname, unameComment} = this.form.value;
+    this.socket.sendReply(this.commentObj._id, { user: uname, comment: unameComment });
+    this.form.controls.unameComment.reset();
   }
 
   delete() {

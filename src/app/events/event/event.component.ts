@@ -66,7 +66,7 @@ export class EventComponent implements OnInit {
       eventId: this.eventId, tempId: this.tempId
     });
     this.socket.sendMessage(userComment);
-    this.form.reset();
+    this.form.controls.comment.reset();
   }
 
   ngOnDestroy(): void {
